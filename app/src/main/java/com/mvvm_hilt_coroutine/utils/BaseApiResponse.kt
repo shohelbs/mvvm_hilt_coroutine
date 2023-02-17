@@ -1,4 +1,4 @@
-package com.mvvm_hilt_coroutine.model
+package com.mvvm_hilt_coroutine.utils
 
 import com.mvvm_hilt_coroutine.utils.NetworkResult
 import retrofit2.Response

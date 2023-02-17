@@ -5,7 +5,7 @@
 
     <application
         android:allowBackup="true"
-        android:name=".ui.MyApplication"
+        android:name="com.mvvm_hilt_coroutine.ui.MyApplication"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
@@ -14,7 +14,7 @@
         android:theme="@style/Theme.PhotoPicker"
         tools:targetApi="31">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.mvvm_hilt_coroutine.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
