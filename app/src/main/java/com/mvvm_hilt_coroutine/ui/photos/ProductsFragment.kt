@@ -1,4 +1,4 @@
-package com.mvvm_hilt_coroutine.ui
+package com.mvvm_hilt_coroutine.ui.photos
 
 import android.os.Bundle
 import android.util.Log
@@ -7,25 +7,27 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.mvvm_hilt_coroutine.ui.view_model.PhotoPickerViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.mvvm_hilt_coroutine.model.ProductResponse
+import com.mvvm_hilt_coroutine.ui.photos.view_model.ProductsViewModel
 import com.mvvm_hilt_coroutine.utils.NetworkResult
-import com.photopicker.databinding.FragmentPhotoPickerBinding
+import com.photopicker.databinding.FragmentProductsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PhotoPickerFragment : Fragment() {
+class ProductsFragment : Fragment() {
 
-    private var _binding: FragmentPhotoPickerBinding? = null
+    private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<PhotoPickerViewModel>()
+    private val viewModel by viewModels<ProductsViewModel>()
 
     companion object {
         const val UI_DATA_MODEL = "ui_data_model"
 
         @JvmStatic
         fun newInstance() =
-            PhotoPickerFragment().apply {
+            ProductsFragment().apply {
                 arguments = Bundle().apply {
 
                 }
@@ -42,7 +44,7 @@ class PhotoPickerFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentPhotoPickerBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentProductsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -56,7 +58,7 @@ class PhotoPickerFragment : Fragment() {
             when (response) {
                 is NetworkResult.Success -> {
                     response.data?.let {
-                       Log.e("data",">> ${response.data}")
+                       showPhotos(it)
                     }
                 }
 
@@ -67,6 +69,15 @@ class PhotoPickerFragment : Fragment() {
                 is NetworkResult.Loading -> {
                     Log.e("data",">> Loader")
                 }
+            }
+        }
+    }
+
+    private fun showPhotos(pickerResponse: ProductResponse) {
+        binding.photoList.apply {
+            this.layoutManager = LinearLayoutManager(requireContext())
+            pickerResponse.products?.let {
+                this.adapter = ProductsAdapter(it)
             }
         }
     }

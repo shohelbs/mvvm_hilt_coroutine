@@ -3,6 +3,7 @@ package com.mvvm_hilt_coroutine.ui
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.mvvm_hilt_coroutine.ui.base.BaseActivity
+import com.mvvm_hilt_coroutine.ui.photos.ProductsFragment
 import com.mvvm_hilt_coroutine.utils.CommunicatorFragmentInterface
 import com.photopicker.R
 import dagger.hilt.android.AndroidEntryPoint
@@ -12,7 +13,7 @@ class MainActivity : BaseActivity(),CommunicatorFragmentInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setContentFragment(PhotoPickerFragment.newInstance(),false)
+        setContentFragment(ProductsFragment.newInstance(),false)
     }
 
 
