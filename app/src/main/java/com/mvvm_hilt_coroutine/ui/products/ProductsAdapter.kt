@@ -1,4 +1,4 @@
-package com.mvvm_hilt_coroutine.ui.photos
+package com.mvvm_hilt_coroutine.ui.products
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,6 +9,7 @@ import com.photopicker.databinding.ItemProductBinding
 
 class ProductsAdapter(
     private var photos: List<Product?>,
+    private val productCallback: ProductCallback
 ) : RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemProductBinding) :
@@ -28,11 +29,16 @@ class ProductsAdapter(
             item?.let {
                 AppHelper.loadImage(it.thumbnail, binding.photoImage, false)
                 binding.photoTitle.text = it.title
+                binding.photoImage.setOnClickListener { productCallback.onItemClick(item,position) }
             }
         }
     }
 
     override fun getItemCount(): Int {
         return photos.size
+    }
+
+    interface ProductCallback {
+        fun onItemClick(item:Product, position: Int)
     }
 }

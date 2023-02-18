@@ -1,4 +1,4 @@
-package com.mvvm_hilt_coroutine.ui.photos.view_model
+package com.mvvm_hilt_coroutine.ui.products.view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProductsViewModel @Inject constructor(private val repository: ProductsRepository) :
+class ProductsDetailsViewModel @Inject constructor(private val repository: ProductsRepository) :
     ViewModel() {
 
     private val _response: MutableLiveData<NetworkResult<ProductResponse>> = MutableLiveData()
