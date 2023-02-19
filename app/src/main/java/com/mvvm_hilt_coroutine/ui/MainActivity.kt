@@ -1,6 +1,7 @@
 package com.mvvm_hilt_coroutine.ui
 
 import android.os.Bundle
+import android.view.Window
 import androidx.fragment.app.Fragment
 import com.mvvm_hilt_coroutine.ui.base.BaseActivity
 import com.mvvm_hilt_coroutine.ui.products.ProductsFragment
@@ -12,10 +13,28 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : BaseActivity(),CommunicatorFragmentInterface {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_main)
-        setContentFragment(ProductsFragment.newInstance(),false)
+        addContentFragment(ProductsFragment.newInstance(),false)
     }
 
+
+    override fun addContentFragment(fragment: Fragment?, addToBackStack: Boolean) {
+        if (!isFinishing) {
+            if (fragment == null) {
+                return
+            }
+
+            val supportedFragmentManager = supportFragmentManager
+            val fragmentManager = supportedFragmentManager.beginTransaction()
+
+            if (addToBackStack)
+                fragmentManager.addToBackStack(fragment.javaClass.name)
+
+            fragmentManager.add(R.id.frame_container, fragment)
+                .commitAllowingStateLoss()
+        }
+    }
 
     override fun setContentFragment(fragment: Fragment?, addToBackStack: Boolean) {
 
@@ -35,23 +54,6 @@ class MainActivity : BaseActivity(),CommunicatorFragmentInterface {
             fragmentManager.replace(R.id.frame_container, fragment)
                 .commitAllowingStateLoss()
 
-        }
-    }
-
-    override fun addContentFragment(fragment: Fragment?, addToBackStack: Boolean) {
-        if (!isFinishing) {
-            if (fragment == null) {
-                return
-            }
-
-            val supportedFragmentManager = supportFragmentManager
-            val fragmentManager = supportedFragmentManager.beginTransaction()
-
-            if (addToBackStack)
-                fragmentManager.addToBackStack(fragment.javaClass.name)
-
-            fragmentManager.add(R.id.frame_container, fragment)
-                .commitAllowingStateLoss()
         }
     }
 }

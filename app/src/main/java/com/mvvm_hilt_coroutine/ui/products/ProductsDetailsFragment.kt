@@ -1,30 +1,23 @@
 package com.mvvm_hilt_coroutine.ui.products
 
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
 import com.mvvm_hilt_coroutine.model.Product
-import com.mvvm_hilt_coroutine.model.ProductResponse
 import com.mvvm_hilt_coroutine.ui.base.BaseFragment
-import com.mvvm_hilt_coroutine.ui.products.view_model.ProductsViewModel
-import com.mvvm_hilt_coroutine.utils.NetworkResult
-import com.photopicker.databinding.FragmentProductsBinding
+import com.photopicker.databinding.FragmentProductsDetailsBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ProductsDetailsFragment : BaseFragment() {
 
-    private var _binding: FragmentProductsBinding? = null
+    private var _binding: FragmentProductsDetailsBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<ProductsViewModel>()
     private var product:Product?=null
 
     companion object {
@@ -55,13 +48,20 @@ class ProductsDetailsFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProductsBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentProductsDetailsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setProductDetails()
+    }
 
+    private fun setProductDetails() {
+        product?.images?.let {
+            binding.productPager.adapter = ProductDetailsAdapter(it)
+            TabLayoutMediator(binding.tabLayout,binding.productPager) { _, _-> }.attach()
+        }
     }
 
 

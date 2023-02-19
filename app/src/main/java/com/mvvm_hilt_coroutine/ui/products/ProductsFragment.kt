@@ -52,24 +52,22 @@ class ProductsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-       // Set Data
-
         viewModel.fetchPhotos()
         viewModel.response.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
+                    binding.progressBar.visibility = View.GONE
                     response.data?.let {
                        showPhotos(it)
                     }
                 }
 
                 is NetworkResult.Error -> {
-                    Log.e("data",">> Error")
+                    binding.progressBar.visibility = View.GONE
                 }
 
                 is NetworkResult.Loading -> {
-                    Log.e("data",">> Loader")
+                    binding.progressBar.visibility = View.VISIBLE
                 }
             }
         }
@@ -81,7 +79,7 @@ class ProductsFragment : BaseFragment() {
             pickerResponse.products?.let {
                 this.adapter = ProductsAdapter(it,object : ProductsAdapter.ProductCallback{
                     override fun onItemClick(item: Product, position: Int) {
-                        myCommunicator?.setContentFragment(
+                        myCommunicator?.addContentFragment(
                             ProductsDetailsFragment.newInstance(item),true)
                     }
                 })
