@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Photo Picker</string>
+    <string name="app_name">Mvvm Hilt Coroutine</string>
     <string name="product_details">Product Details</string>
     <string name="products">Products</string>
 </resources>
