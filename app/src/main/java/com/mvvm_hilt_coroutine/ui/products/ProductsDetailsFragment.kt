@@ -1,9 +1,11 @@
 package com.mvvm_hilt_coroutine.ui.products
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.gson.Gson
@@ -55,6 +57,9 @@ class ProductsDetailsFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setProductDetails()
+        binding.backButton.setOnClickListener {
+           requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
     }
 
     private fun setProductDetails() {

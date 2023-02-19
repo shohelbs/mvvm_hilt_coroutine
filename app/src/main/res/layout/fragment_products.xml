@@ -21,7 +21,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="15dp"
                 android:gravity="center"
-                android:text="@string/product_details"
+                android:text="@string/products"
                 android:textColor="@color/white" />
 
         </RelativeLayout>

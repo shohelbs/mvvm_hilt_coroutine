@@ -2,6 +2,7 @@ package com.mvvm_hilt_coroutine.ui
 
 import android.os.Bundle
 import android.view.Window
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.mvvm_hilt_coroutine.ui.base.BaseActivity
 import com.mvvm_hilt_coroutine.ui.products.ProductsFragment
@@ -16,6 +17,16 @@ class MainActivity : BaseActivity(),CommunicatorFragmentInterface {
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
         setContentView(R.layout.activity_main)
         addContentFragment(ProductsFragment.newInstance(),false)
+
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+               if (supportFragmentManager.backStackEntryCount>0){
+                   supportFragmentManager.popBackStack()
+               }else {
+                   finish()
+               }
+            }
+        })
     }
 
 
@@ -56,4 +67,5 @@ class MainActivity : BaseActivity(),CommunicatorFragmentInterface {
 
         }
     }
+
 }
