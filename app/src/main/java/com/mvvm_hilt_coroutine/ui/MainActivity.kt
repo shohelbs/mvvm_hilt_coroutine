@@ -8,23 +8,33 @@ import com.mvvm_hilt_coroutine.ui.base.BaseActivity
 import com.mvvm_hilt_coroutine.ui.products.ProductsFragment
 import com.mvvm_hilt_coroutine.utils.CommunicatorFragmentInterface
 import com.photopicker.R
+import com.photopicker.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : BaseActivity(),CommunicatorFragmentInterface {
+
+    private var binding:ActivityMainBinding?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding?.let {
+            setContentView(it.root)
+        }
         addContentFragment(ProductsFragment.newInstance(),false)
+        handleBackButton()
+    }
 
+    private fun handleBackButton() {
         onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-               if (supportFragmentManager.backStackEntryCount>0){
-                   supportFragmentManager.popBackStack()
-               }else {
-                   finish()
-               }
+                if (supportFragmentManager.backStackEntryCount>0){
+                    supportFragmentManager.popBackStack()
+                }else {
+                    finish()
+                }
             }
         })
     }
